@@ -1,0 +1,10 @@
+{
+  "src": [
+    "pages/Index",
+    "pages/StoryPage",
+    "pages/ClueBoardPage",
+    "pages/DeductionPage",
+    "pages/ArchivePage",
+    "pages/EndingPage"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "迷雾档案校园推理应用"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "迷雾档案主入口"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "迷雾档案"
+    }
+  ]
+}

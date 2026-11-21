@@ -1,0 +1,24 @@
+{
+  "color": [
+    {
+      "name": "start_window_background",
+      "value": "#1E2438"
+    },
+    {
+      "name": "page_background",
+      "value": "#F4F1EA"
+    },
+    {
+      "name": "card_background",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "ink",
+      "value": "#22283A"
+    },
+    {
+      "name": "accent",
+      "value": "#8A6A2F"
+    }
+  ]
+}
