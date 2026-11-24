@@ -90,7 +90,8 @@ FogArchive/
 | fe92285 | feat(save): 三档位存档、损坏档保护与页面实现 |
 | 43bac52 | feat(test): 补全 README、运行截图、图标与 5 条 hypium 用例 |
 | 7e2ee78 | feat(test): 补充推理门槛、结局理由与空快照往返用例，README 增补 E2 截图与辅助脚本说明 |
-| 595abed | docs: 回填提交记录哈希，补充需求说明书与 README 口径 |
+| 595abed | docs: 回填提交记录哈希 |
+| 1a1261f | docs: 补充软件需求说明书，更新 README 覆盖率口径、提交记录与录屏说明 |
 
 ## 八、运行截图
 
