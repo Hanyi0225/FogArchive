@@ -18,7 +18,7 @@
 | 2 个由不同条件触发的结局 | E1《迟到的合影》/ E2《封楼的回声》，由 `DeductionService.judge` 计算 |
 | 线索板、关键状态提示、阶段进度 | ClueBoardPage、节点缺项提示、首页与叙事页的阶段/进度条 |
 | 存档与重开、杀进程恢复 | RDB 三档位（1 号自动档 + 2 个手动档），Preferences 记录上次档位 |
-| 业务数据建模、Preferences/RDB、单元测试 | Models / SaveRepository / PrefsStore / `entry/src/test` 5 条用例 |
+| 业务数据建模、Preferences/RDB、单元测试 | Models / SaveRepository / PrefsStore / `entry/src/test` 8 条用例 |
 
 ## 三、目录结构
 
@@ -27,6 +27,7 @@ FogArchive/
 ├── AppScope/app.json5                    应用级配置（bundleName、图标）
 ├── build-profile.json5                   编译配置（compatibleSdkVersion 5.0.5(17)）
 ├── hvigorfile.ts / oh-package.json5      构建脚本与依赖
+├── _tools/                               开发辅助脚本（项目自检、图标生成，不参与编译与打包）
 └── entry/
     ├── src/main/
     │   ├── module.json5                  模块配置（EntryAbility、页面清单）
@@ -42,7 +43,7 @@ FogArchive/
     │   │   ├── domain/GameStore.ets            AppStorage 全局状态与节点执行
     │   │   └── pages/                          Index / Story / ClueBoard / Deduction / Archive / Ending
     │   └── resources/base/                    字符串、颜色、页面清单、图标
-    └── src/test/                              本地单元测试（5 条）
+    └── src/test/                              本地单元测试（8 条）
 ```
 
 ## 四、开发环境
@@ -58,7 +59,7 @@ FogArchive/
 2. 首次打开会提示 Sync，等待依赖下载完成（需联网）。
 3. File → Project Structure → Signing Configs，勾选 Automatically generate signature（需登录华为账号）。
 4. 选择 `entry` 模块与模拟器/真机，点击 Run。
-5. 验证“杀进程恢复”：进入叙事页完成若干节点 → 从最近任务列表上滑杀掉应用 → 重新打开 → 首页提示“已重读进度”。
+5. 验证“杀进程恢复”：进入叙事页完成若干节点 → 从最近任务列表上滑杀掉应用 → 重新打开 → 首页提示“已恢复上次进度（阶段，线索 n 条）”。
 
 ## 六、单元测试
 
@@ -66,13 +67,16 @@ FogArchive/
 
 - 在 DevEco Studio 中右键 `entry/src/test` → Run，或在工程根目录执行
   `node <DevEco>/tools/hvigor/bin/hvigorw.js --mode module -p product=default -p module=entry@default test --no-daemon`。
-- 5 条用例与覆盖类型：
+- 8 条用例与覆盖类型：
   1. `normal_shouldEnterConditionNode`：正常，C1+C3 → N08 可进入
   2. `boundary_deduceNeedFourClues`：边界，3 条不可进入、4 条恰好可进入
   3. `exception_damagedSnapshot`：异常，损坏 JSON 与版本不符均回退空档
   4. `normal_addClueIsIdempotent`：正常，重复收集不增加线索数
   5. `exception_endingGuard`：异常，线索不全/指认错误一律 E2
-- 实测结果：5 条全部通过（共 5 个测试，12 毫秒）；覆盖率报告行覆盖率 21.7%、函数覆盖率 24.2%。
+  6. `boundary_canDeduceThreshold`：边界，推理台门槛为 4 条线索且需 artificial，缺一不可
+  7. `normal_judgeReasonListsGaps`：正常，结局理由分别列出线索缺口、指认不符与推论缺失
+  8. `normal_blankSnapshotRoundTrip`：正常，空快照序列化后可无损恢复，不判为损坏档
+- 实测结果：8 条用例在 DevEco Studio 右键 Run 后全部通过（共 8 个测试，16 毫秒）；覆盖率报告行覆盖率 21.7%、函数覆盖率 24.2%，未覆盖部分主要为页面层与 RDB 读写分支。
 
 ## 七、提交记录（与报告表 4.1 对应）
 
@@ -83,7 +87,8 @@ FogArchive/
 | a801a48 | feat(engine): 实现节点可进入判定与缺项提示，补充场景解锁规则 |
 | 3b1e469 | feat(state): 节点执行、线索收集幂等、每次推进写入自动档 |
 | fe92285 | feat(save): 三档位存档、损坏档保护与页面实现 |
-| 最新一条 | feat(test): 补全 README、运行截图、图标与 5 条 hypium 用例（`git log` 可查） |
+| 43bac52 | feat(test): 补全 README、运行截图、图标与 5 条 hypium 用例 |
+| ed1efa6 | feat(test): 补充推理门槛、结局理由与空快照往返用例，README 增补 E2 截图与辅助脚本说明 |
 
 ## 八、运行截图
 
@@ -96,6 +101,7 @@ FogArchive/
 | 线索板（线索 4/6） | `docs/screenshots/03-clue-board.png` |
 | 推理台（线索 6/6） | `docs/screenshots/04-deduction.png` |
 | 结局 E1《迟到的合影》 | `docs/screenshots/05-ending-e1.png` |
+| 结局 E2《封楼的回声》 | `docs/screenshots/09-ending-e2.png` |
 | 存档页三档位 | `docs/screenshots/06-archive.png` |
 | 系统架构图 | `docs/screenshots/07-architecture.png` |
 | 模块业务流程图 | `docs/screenshots/08-flow.png` |

@@ -63,5 +63,36 @@ export default function storyTest() {
       const noFlag: Record<string, boolean> = {};
       expect(DeductionService.canDeduce(six, noFlag)).assertFalse();
     });
+
+    // 边界用例：进入推理台的门槛为 4 条线索且已确认人为点灯，缺一不可
+    it('boundary_canDeduceThreshold', 0, () => {
+      const three: string[] = ['C1', 'C2', 'C3'];
+      const four: string[] = ['C1', 'C2', 'C3', 'C4'];
+      const flags: Record<string, boolean> = { 'artificial': true };
+      expect(DeductionService.canDeduce(three, flags)).assertFalse();
+      expect(DeductionService.canDeduce(four, flags)).assertTrue();
+      expect(DeductionService.canDeduce(four, {})).assertFalse();
+    });
+
+    // 正常用例：结局理由分别列出线索缺口、指认不符与推论缺失，闭合时给出肯定结论
+    it('normal_judgeReasonListsGaps', 0, () => {
+      const five: string[] = ['C1', 'C2', 'C3', 'C4', 'C5'];
+      expect(DeductionService.judgeReason(five, 'shen', { 'artificial': true }).includes('线索仅 5 条')).assertTrue();
+      const six: string[] = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6'];
+      expect(DeductionService.judgeReason(six, 'zhou', { 'artificial': true }).includes('指认对象与档案记录不符')).assertTrue();
+      expect(DeductionService.judgeReason(six, 'shen', {}).includes('人为点亮')).assertTrue();
+      expect(DeductionService.judgeReason(six, 'shen', { 'artificial': true })).assertEqual('证据链闭合');
+    });
+
+    // 正常用例：空快照序列化后可无损恢复，不判为损坏档
+    it('normal_blankSnapshotRoundTrip', 0, () => {
+      const blank: Snapshot = Snapshot.blank();
+      const text: string = blank.toJson();
+      const result: LoadResult = Snapshot.fromJson(text);
+      expect(result.damaged).assertFalse();
+      expect(result.snapshot.clueIds.length).assertEqual(0);
+      expect(result.snapshot.visited.length).assertEqual(0);
+      expect(result.snapshot.version).assertEqual(1);
+    });
   });
 }
