@@ -28,6 +28,7 @@ FogArchive/
 ├── build-profile.json5                   编译配置（compatibleSdkVersion 5.0.5(17)）
 ├── hvigorfile.ts / oh-package.json5      构建脚本与依赖
 ├── _tools/                               开发辅助脚本（项目自检、图标生成，不参与编译与打包）
+├── docs/                                 软件需求说明书、运行截图与演示录屏
 └── entry/
     ├── src/main/
     │   ├── module.json5                  模块配置（EntryAbility、页面清单）
@@ -76,7 +77,7 @@ FogArchive/
   6. `boundary_canDeduceThreshold`：边界，推理台门槛为 4 条线索且需 artificial，缺一不可
   7. `normal_judgeReasonListsGaps`：正常，结局理由分别列出线索缺口、指认不符与推论缺失
   8. `normal_blankSnapshotRoundTrip`：正常，空快照序列化后可无损恢复，不判为损坏档
-- 实测结果：8 条用例在 DevEco Studio 右键 Run 后全部通过（共 8 个测试，16 毫秒）；覆盖率报告行覆盖率 21.7%、函数覆盖率 24.2%，未覆盖部分主要为页面层与 RDB 读写分支。
+- 实测结果：8 条用例在 DevEco Studio 右键 Run 后全部通过（共 8 个测试，16 毫秒）；覆盖率报告行覆盖率 27.4%、函数覆盖率 27.4%，未覆盖部分主要为页面层与 RDB 读写分支。
 
 ## 七、提交记录（与报告表 4.1 对应）
 
@@ -89,6 +90,7 @@ FogArchive/
 | fe92285 | feat(save): 三档位存档、损坏档保护与页面实现 |
 | 43bac52 | feat(test): 补全 README、运行截图、图标与 5 条 hypium 用例 |
 | 7e2ee78 | feat(test): 补充推理门槛、结局理由与空快照往返用例，README 增补 E2 截图与辅助脚本说明 |
+| 595abed | docs: 回填提交记录哈希，补充需求说明书与 README 口径 |
 
 ## 八、运行截图
 
@@ -106,7 +108,13 @@ FogArchive/
 | 系统架构图 | `docs/screenshots/07-architecture.png` |
 | 模块业务流程图 | `docs/screenshots/08-flow.png` |
 
-## 九、已知限制
+## 九、演示录屏
+
+演示视频：`docs/demo.mp4`（待录制补充）。
+
+录制路径：启动应用 → 首页「继续调查」→ 在一层大厅、二层走廊收集线索 → 进入推理台指认嫌疑人 → 进入对应结局 → 从最近任务列表结束应用进程后重新打开，验证进度恢复到上次场景与线索。
+
+## 十、已知限制
 
 - 剧情为静态配置，不接在线服务；音效与插图未接入，界面为纯 ArkUI 排版。
 - 指认对象为固定三人，未做自由文本输入。
